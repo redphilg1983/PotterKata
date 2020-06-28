@@ -35,6 +35,18 @@
             int[] updatedArray = HandleUpdateArray(booksArray);
 
             int booksLength = updatedArray.Length;
+
+            if (booksLength == 0)
+            {
+                PriceResponse singleBookTypePrice = new PriceResponse
+                {
+                    GBP = 0m,
+                    Euro = 0m,
+                };
+
+                return new GetPriceResponse(singleBookTypePrice);
+            }
+
             int bookValue = updatedArray[0];
 
             if (booksLength == 1)
