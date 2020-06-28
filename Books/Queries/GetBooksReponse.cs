@@ -1,7 +1,7 @@
-﻿using Books.Models;
-
-namespace Books.Queries
+﻿namespace Books.Queries
 {
+    using Books.Models;
+
     public class GetBooksReponse
     {
         internal GetBooksReponse(BookList bookList)

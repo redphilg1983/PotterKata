@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Books.Models
+﻿namespace Books.Models
 {
     public class BookList
     {

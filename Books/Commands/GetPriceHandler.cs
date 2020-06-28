@@ -1,15 +1,13 @@
-﻿using Books.Models;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Books.Commands
+﻿namespace Books.Commands
 {
+    using Books.Models;
+    using MediatR;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class GetPriceHandler : IRequestHandler<GetPrice, GetPriceResponse>
     {
         private readonly decimal bookPrice = 8m;
@@ -18,7 +16,6 @@ namespace Books.Commands
         private readonly decimal fourBookDiscount = 0.8m;
         private readonly decimal fiveBookDiscount = 0.75m;
         private readonly decimal currencyConversionGBPToEuro = 1.1m;
-        private decimal GBP;
         private List<List<int>> combinations;
         private List<decimal> costings;
 
@@ -34,8 +31,8 @@ namespace Books.Commands
 
         private async Task<GetPriceResponse> HandleInternalAsync(GetPrice request, CancellationToken cancellationToken)
         {
-            int[] booksArray = await HandleGetBooksLength(request);
-            int[] updatedArray = await HandleUpdateArray(booksArray);
+            int[] booksArray = HandleGetBooksLength(request);
+            int[] updatedArray = HandleUpdateArray(booksArray);
 
             int booksLength = updatedArray.Length;
             int bookValue = updatedArray[0];
@@ -51,9 +48,9 @@ namespace Books.Commands
                 return new GetPriceResponse(singleBookTypePrice);
             };
 
-            List<List<int>> combinations = await CalculateCombinations(updatedArray);
+            List<List<int>> combinations = CalculateCombinations(updatedArray);
 
-            List<decimal> costings = await CalculateCostings(combinations);
+            List<decimal> costings = CalculateCostings(combinations);
 
             decimal lowestPrice = costings.Min();
 
@@ -66,7 +63,7 @@ namespace Books.Commands
             return new GetPriceResponse(prices);
         }
 
-        private async Task<int[]> HandleGetBooksLength(GetPrice request)
+        private int[] HandleGetBooksLength(GetPrice request)
         {
             int[] booksArray = new int[] {
                 request.PriceRequest.BookList.Book1,
@@ -79,7 +76,7 @@ namespace Books.Commands
             return booksArray;
         }
 
-        private async Task<List<List<int>>> CalculateCombinations(int[] books)
+        private List<List<int>> CalculateCombinations(int[] books)
         {
             combinations = new List<List<int>>();
             for (int x = 5; x > 0; x--)
@@ -108,28 +105,28 @@ namespace Books.Commands
             return combinations;
         }
 
-        private async Task<List<decimal>> CalculateCostings(List<List<int>> combinations)
+        private List<decimal> CalculateCostings(List<List<int>> combinations)
         {
             costings = new List<decimal>();
-            foreach(List<int> combination in combinations)
+            foreach (List<int> combination in combinations)
             {
                 decimal cost = 0m;
-                foreach(int books in combination)
+                foreach (int books in combination)
                 {
-                    cost = cost + await HandleBookCosts(books);
+                    cost = cost + HandleBookCosts(books);
                 }
                 costings.Add(cost);
             }
             return costings;
         }
 
-        private async Task<int[]> HandleUpdateArray(int[] booksArray)
+        private int[] HandleUpdateArray(int[] booksArray)
         {
             int[] updatedArray = Array.FindAll(booksArray, i => i != 0).ToArray();
             return updatedArray;
         }
 
-        private async Task<Decimal> HandleBookCosts(int books)
+        private Decimal HandleBookCosts(int books)
         {
             if (books == 5)
             {

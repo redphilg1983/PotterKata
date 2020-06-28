@@ -1,13 +1,10 @@
-﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Books.Models;
-using System.Threading;
-
-namespace Books.Queries
+﻿namespace Books.Queries
 {
+    using MediatR;
+    using System.Threading.Tasks;
+    using Books.Models;
+    using System.Threading;
+
     public class GetBooksHandler : IRequestHandler<GetBooks, GetBooksReponse>
     {
         public Task<GetBooksReponse> Handle(GetBooks request, CancellationToken cancellationToken)

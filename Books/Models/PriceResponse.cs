@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Books.Models
+﻿namespace Books.Models
 {
+    using System;
+
     public class PriceResponse
     {
         public Decimal GBP { get; set; }

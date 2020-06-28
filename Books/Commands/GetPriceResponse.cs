@@ -1,10 +1,7 @@
-﻿using Books.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Books.Commands
+﻿namespace Books.Commands
 {
+    using Books.Models;
+
     public class GetPriceResponse
     {
         public GetPriceResponse(PriceResponse prices)

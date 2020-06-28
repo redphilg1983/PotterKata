@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Books.Commands;
-using Books.Models;
-using Books.Queries;
-using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace AOPotterKata.Controllers
+﻿namespace AOPotterKata.Controllers
 {
+    using System.Threading.Tasks;
+    using Books.Commands;
+    using Books.Models;
+    using Books.Queries;
+    using MediatR;
+    using Microsoft.AspNetCore.Mvc;
+
     [Route("api/books")]
     [ApiController]
     public class BooksController : ControllerBase
