@@ -1,0 +1,161 @@
+﻿using Books.Models;
+using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace Books.Commands
+{
+    public class GetPriceHandler : IRequestHandler<GetPrice, GetPriceResponse>
+    {
+        private readonly decimal bookPrice = 8m;
+        private readonly decimal twoBookDiscount = 0.95m;
+        private readonly decimal threeBookDiscount = 0.9m;
+        private readonly decimal fourBookDiscount = 0.8m;
+        private readonly decimal fiveBookDiscount = 0.75m;
+        private readonly decimal currencyConversionGBPToEuro = 1.1m;
+        private decimal GBP;
+        private List<List<int>> combinations;
+        private List<decimal> costings;
+
+        public Task<GetPriceResponse> Handle(GetPrice request, CancellationToken cancellationToken)
+        {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
+            return HandleInternalAsync(request, cancellationToken);
+        }
+
+        private async Task<GetPriceResponse> HandleInternalAsync(GetPrice request, CancellationToken cancellationToken)
+        {
+            int[] booksArray = await HandleGetBooksLength(request);
+            int[] updatedArray = await HandleUpdateArray(booksArray);
+
+            int booksLength = updatedArray.Length;
+            int bookValue = updatedArray[0];
+
+            if (booksLength == 1)
+            {
+                PriceResponse singleBookTypePrice = new PriceResponse
+                {
+                    GBP = bookValue * bookPrice,
+                    Euro = bookValue * bookPrice * currencyConversionGBPToEuro,
+                };
+
+                return new GetPriceResponse(singleBookTypePrice);
+            };
+
+            List<List<int>> combinations = await CalculateCombinations(updatedArray);
+
+            List<decimal> costings = await CalculateCostings(combinations);
+
+            decimal lowestPrice = costings.Min();
+
+            PriceResponse prices = new PriceResponse
+            {
+                GBP = lowestPrice,
+                Euro = lowestPrice * currencyConversionGBPToEuro,
+            };
+
+            return new GetPriceResponse(prices);
+        }
+
+        private async Task<int[]> HandleGetBooksLength(GetPrice request)
+        {
+            int[] booksArray = new int[] {
+                request.PriceRequest.BookList.Book1,
+                request.PriceRequest.BookList.Book2,
+                request.PriceRequest.BookList.Book3,
+                request.PriceRequest.BookList.Book4,
+                request.PriceRequest.BookList.Book5,
+            };
+
+            return booksArray;
+        }
+
+        private async Task<List<List<int>>> CalculateCombinations(int[] books)
+        {
+            combinations = new List<List<int>>();
+            for (int x = 5; x > 0; x--)
+            {
+                List<int> intArray = new List<int>();
+                if (books.Sum() >= x)
+                {
+                    int totalBooks = books.Sum();
+                    int i = x;
+                    while (i <= totalBooks)
+                    {
+                        intArray.Add(i);
+                        totalBooks = totalBooks - x;
+                    }
+                    if (totalBooks != 0)
+                    {
+                        intArray.Add(totalBooks);
+                    }
+                }
+                if (intArray.Count > 0)
+                {
+                    combinations.Add(intArray);
+                }
+            }
+
+            return combinations;
+        }
+
+        private async Task<List<decimal>> CalculateCostings(List<List<int>> combinations)
+        {
+            costings = new List<decimal>();
+            foreach(List<int> combination in combinations)
+            {
+                decimal cost = 0m;
+                foreach(int books in combination)
+                {
+                    cost = cost + await HandleBookCosts(books);
+                }
+                costings.Add(cost);
+            }
+            return costings;
+        }
+
+        private async Task<int[]> HandleUpdateArray(int[] booksArray)
+        {
+            int[] updatedArray = Array.FindAll(booksArray, i => i != 0).ToArray();
+            return updatedArray;
+        }
+
+        private async Task<Decimal> HandleBookCosts(int books)
+        {
+            if (books == 5)
+            {
+                decimal cost = bookPrice * 5 * fiveBookDiscount;
+                return cost;
+            };
+            if (books == 4)
+            {
+                decimal cost = bookPrice * 4 * fourBookDiscount;
+                return cost;
+            }
+            if (books == 3)
+            {
+                decimal cost = bookPrice * 3 * threeBookDiscount;
+                return cost;
+            }
+            if (books == 2)
+            {
+                decimal cost = bookPrice * 2 * twoBookDiscount;
+                return cost;
+            }
+            if (books == 1)
+            {
+                return bookPrice;
+            }
+            return 0;
+        }
+    }
+}

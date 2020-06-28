@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AOPotterKata", "AOPotterKata.csproj", "{D653C9A5-6773-40CC-8C6F-5183772C7F93}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books", "..\Books\Books.csproj", "{3D66E1E1-DB41-4609-9C5F-4EFCE051EA13}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1ED963AC-354E-4ADE-AE05-4825B980A255}"
+	ProjectSection(SolutionItems) = preProject
+		..\.gitignore = ..\.gitignore
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D653C9A5-6773-40CC-8C6F-5183772C7F93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D653C9A5-6773-40CC-8C6F-5183772C7F93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D653C9A5-6773-40CC-8C6F-5183772C7F93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D653C9A5-6773-40CC-8C6F-5183772C7F93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D66E1E1-DB41-4609-9C5F-4EFCE051EA13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D66E1E1-DB41-4609-9C5F-4EFCE051EA13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D66E1E1-DB41-4609-9C5F-4EFCE051EA13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D66E1E1-DB41-4609-9C5F-4EFCE051EA13}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8F87A477-A245-416B-BC22-C4EF3F5C8302}
+	EndGlobalSection
+EndGlobal
