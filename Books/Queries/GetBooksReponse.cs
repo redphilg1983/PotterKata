@@ -4,7 +4,7 @@
 
     public class GetBooksReponse
     {
-        internal GetBooksReponse(BookList bookList)
+        public GetBooksReponse(BookList bookList)
         {
             this.BookList = bookList;
         }
